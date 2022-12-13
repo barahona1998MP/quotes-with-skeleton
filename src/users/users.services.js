@@ -76,7 +76,7 @@ const patchUser = (req, res) => {
         })
 }
 
-//? Este servicio estara protegido solo admins pueden ejecutarlo
+
 const pathcMyUser = (req, res) => {
     const id = req.user.id 
     const {firstName, lastName, gender, birthday} = req.body
@@ -89,3 +89,40 @@ const pathcMyUser = (req, res) => {
         })
 }
 
+//? Este servicio estara protegido solo admins pueden ejecutarlo
+const deleteUser = (req, res) => {
+    const id = req.params.id
+    usersControllers.deleteUser(id)
+        .then(data => {
+            if(data) {
+                res.status(204).json()
+            } else {
+                res.status(404).json({message: `User with id: ${id}, not found`})
+            }
+        })
+        .catch(err => {
+            res.status(400).json({message: err.message})
+        })
+}
+
+const deleteMyUser = (req, res) => {
+    const id = req.user.id
+    usersControllers.deleteUser(id)
+        .then(() => {
+            res.status(204).json()
+        })
+        .catch(err => {
+            res.status(400).json({message: err.message})
+        })
+}
+
+module.exports = {
+    getAllUsers,
+    getMyUser,
+    getUserById,
+    postUser,
+    patchUser,
+    pathcMyUser,
+    deleteUser,
+    deleteMyUser
+}
