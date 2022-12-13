@@ -5,6 +5,7 @@ const cors = require('cors')
 //? Files
 const db = require('./utils/database')
 const config = require('../config')
+const initModels = require('./models/initModels')
 
 //? Initials configs
 const app = express()
@@ -24,7 +25,9 @@ db.sync()
     .then(() => console.log('Database Synce'))
     .catch(err => console.log(err))
 
-    
+//? Initialize my models initModels
+initModels()
+
 //? Routes v1
 app.get('/', (req, res) => {
     res.status(200).json({
